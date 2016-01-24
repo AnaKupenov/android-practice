@@ -17,6 +17,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
+    private Button mPrevButton;
     private TextView mQuestionTextView;
     private int mCurrentIndex = 0;
 
@@ -28,10 +29,18 @@ public class QuizActivity extends AppCompatActivity {
             new QuizQuestion(R.string.question_suez, false),
     };
 
-    public void updateQuestion() {
-        mCurrentIndex++;
-        if(mCurrentIndex >= mQuizQuestionsBank.length) {
-            mCurrentIndex = 0;
+    public void updateQuestion(boolean isNext) {
+
+        if(isNext == true) {
+            mCurrentIndex++;
+            if(mCurrentIndex >= mQuizQuestionsBank.length) {
+                mCurrentIndex = 0;
+            }
+        } else {
+            mCurrentIndex--;
+            if(mCurrentIndex < 0){
+                mCurrentIndex = mQuizQuestionsBank.length - 1;
+            }
         }
         mQuestionTextView.setText(mQuizQuestionsBank[mCurrentIndex].getResourceId());
     }
@@ -58,12 +67,6 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
         mQuestionTextView.setText(mQuizQuestionsBank[mCurrentIndex].getResourceId());
-        mQuestionTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateQuestion();
-            }
-        });
 
         //To wire up a widget:
         //1) Create a reference;
@@ -84,6 +87,22 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                Toast.makeText(QuizActivity.this, R.string.correct_toast, Toast.LENGTH_SHORT).show();
                 validateAnswer(false);
+            }
+        });
+
+        mNextButton = (Button) findViewById(R.id.next_button);
+        mNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                updateQuestion(true);
+            }
+        });
+
+        mPrevButton = (Button) findViewById(R.id.prev_button);
+        mPrevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                updateQuestion(false);
             }
         });
     }
