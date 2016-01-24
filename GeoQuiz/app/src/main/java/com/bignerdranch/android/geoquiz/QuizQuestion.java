@@ -1,7 +1,7 @@
 package com.bignerdranch.android.geoquiz;
 
 public class QuizQuestion {
-    private int mTextId;    //the questions text
+    private int mTextId;
     private boolean mAnswerTrue;
 
     public QuizQuestion(int resourceId, boolean answerTrue) {
@@ -9,7 +9,7 @@ public class QuizQuestion {
         mAnswerTrue = answerTrue;
     }
 
-    public void setResourceId(int resourceId) { mTextId = resourceId; }
+//    public void setResourceId(int resourceId) { mTextId = resourceId; }
     
     public int getResourceId() {
         return mTextId;
@@ -19,8 +19,8 @@ public class QuizQuestion {
         return mAnswerTrue;
     }
 
-    public void setAnswerTrue(boolean answerTrue) {
-        mAnswerTrue = answerTrue;
-    }
+//    public void setAnswerTrue(boolean answerTrue) {
+//        mAnswerTrue = answerTrue;
+//    }
     
 }

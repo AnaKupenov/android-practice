@@ -32,6 +32,9 @@ public class QuizActivity extends AppCompatActivity {
     };
 
     public void updateQuestion() {
+//        //logs the entire stack trace
+//        Log.d(TAG, "Updating question text for question #" + mCurrentIndex,
+//                new Exception());
         mCurrentIndex++;
         if(mCurrentIndex >= mQuizQuestionsBank.length) {
             mCurrentIndex = 0;
