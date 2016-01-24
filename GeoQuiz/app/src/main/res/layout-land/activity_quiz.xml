@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp">
 
     <TextView
         android:id="@+id/question_text_view"
@@ -15,7 +18,6 @@
         android:id="@+id/buttons_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"
         android:orientation="horizontal">
 
         <Button
@@ -32,6 +34,13 @@
     </LinearLayout>
 
     <Button
+        android:layout_below="@+id/buttons_container"
+        android:id="@+id/id_cheat_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cheat_button"/>
+
+    <Button
         android:id="@+id/next_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,4 +49,4 @@
         android:layout_gravity="bottom|right"
         android:drawablePadding="4dp"/>
 
-</FrameLayout>
+</LinearLayout>

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.util.Log;
+import android.content.Intent;
 
 public class QuizActivity extends AppCompatActivity {
 // contains the remaining needed classes like onStart
@@ -20,6 +21,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
+    private Button mCheatButton;
     private TextView mQuestionTextView;
     private int mCurrentIndex = 0;
 
@@ -100,6 +102,14 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
+        mCheatButton = (Button) findViewById(R.id.id_cheat_button);
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iLoadCheatView = new Intent(QuizActivity.this, CheatActivity.class);
+                startActivity(iLoadCheatView);
+            }
+        });
     }
 
     //typically called by the onPause() and onStop() methods
