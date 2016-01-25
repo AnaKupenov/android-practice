@@ -1,5 +1,6 @@
 package com.bignerdranch.android.geoquiz;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 //subclass of Activity;
 // provides compatibility support for older Android versions
@@ -17,6 +18,7 @@ public class QuizActivity extends AppCompatActivity {
 // contains the remaining needed classes like onStart
     private static final String TAG = "QuizActivity";
     private static final String KEY_INDEX = "index";
+    private static final int REQUEST_CODE_CHEAT = 0;
 
     private Button mTrueButton;
     private Button mFalseButton;
@@ -24,6 +26,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button mCheatButton;
     private TextView mQuestionTextView;
     private int mCurrentIndex = 0;
+    private boolean mIsCheater;
 
     private QuizQuestion[] mQuizQuestionsBank = new QuizQuestion[]{
             new QuizQuestion(R.string.question_africa, false),
@@ -46,12 +49,22 @@ public class QuizActivity extends AppCompatActivity {
 
     public void validateAnswer(boolean userAnswer) {
         int msgId = 0;
-        //user answer matches "True"
-        if(userAnswer == mQuizQuestionsBank[mCurrentIndex].isAnswerTrue()){
-            msgId = R.string.correct_toast;
+
+        if(mIsCheater) {
+            if(userAnswer = mQuizQuestionsBank[mCurrentIndex].isAnswerTrue()) {
+                msgId = R.string.cheat_toast;
+            } else {
+                mIsCheater = false;
+                msgId = R.string.tryagain_toast;
+            }
         } else {
-            msgId = R.string.incorrect_toast;
+            if(userAnswer == mQuizQuestionsBank[mCurrentIndex].isAnswerTrue()){
+                msgId = R.string.correct_toast;
+            } else {
+                msgId = R.string.incorrect_toast;
+            }
         }
+
         Toast.makeText(this, msgId, Toast.LENGTH_SHORT).show();
     }
 
@@ -65,6 +78,7 @@ public class QuizActivity extends AppCompatActivity {
         // integer constant within the layout innerclass or R
         setContentView(R.layout.activity_quiz);
 
+        //kude triabva da se namira?
         if(savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
         }
@@ -98,6 +112,7 @@ public class QuizActivity extends AppCompatActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public  void  onClick(View v) {
+                mIsCheater = false;
                 updateQuestion();
             }
         });
@@ -106,10 +121,21 @@ public class QuizActivity extends AppCompatActivity {
         mCheatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent iLoadCheatView = new Intent(QuizActivity.this, CheatActivity.class);
-                startActivity(iLoadCheatView);
+                //Start CheatActivity
+                boolean answerIsTrue = mQuizQuestionsBank[mCurrentIndex].isAnswerTrue();
+                Intent iLoadCheatView = CheatActivity.newIntent(QuizActivity.this, answerIsTrue);
+                startActivityForResult(iLoadCheatView, REQUEST_CODE_CHEAT);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_CHEAT) {
+            if(data != null) {
+                mIsCheater = CheatActivity.wasAnswerShown(data);
+            }
+        }
     }
 
     //typically called by the onPause() and onStop() methods
