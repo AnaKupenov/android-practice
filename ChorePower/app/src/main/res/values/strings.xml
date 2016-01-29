@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ChorePower</string>
+    <string name="to_kids_list">manage kids</string>
+    <string name="kids_list">my kids</string>
+    <string name="to_tasks_list">manage tasks</string>
+    <string name="task_list">my tasks</string>
+
+
+</resources>
